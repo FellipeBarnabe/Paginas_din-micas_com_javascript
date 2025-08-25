@@ -1,34 +1,39 @@
-function tocaMidi(idElementAudio){
-    document.querySelector(idElementAudio).play()
+function tocaSom (seletorAudio) {
+    const elemento = document.querySelector(seletorAudio);
+
+    if (elemento && elemento.localName === 'audio') {
+        elemento.play();
+    }
+    else {
+        //alert('Elemento não encontrado');
+        console.log('Elemento não encontrado ou seletor inválido');
+    }
 
 }
-
 
 const listaDeTeclas = document.querySelectorAll('.tecla');
 
-let contator = 0;
+//para
+for (let contador = 0; contador < listaDeTeclas.length; contador++) {
 
-while(contador < listaDeTeclas.length){
-listaDeTeclas[contator].onclick = tocaMidi;
-    contator = contador +1;
-listaDeTeclas[1].onclick =  idElementAudio;  
+    const tecla = listaDeTeclas[contador];
+    const instrumento = tecla.classList[1];
+    const idAudio = `#som_${instrumento}`; //template string
+
+    tecla.onclick = function () {
+        tocaSom(idAudio);
+    }
+
+    tecla.onkeydown = function (evento) {
+
+        if (evento.code === 'Space' || evento.code === 'Enter') {
+            tecla.classList.add('ativa');
+        }
+
+    }
+
+    tecla.onkeyup = function () {
+        tecla.classList.remove('ativa');
+    }
 
 }
-
-
-/* listaDeTeclas.forEach(tecla => {
-    tecla.addEventListener('click', () => {
-      // Pega a segunda classe (ex: tecla_pom)
-      const instrumento = tecla.classList[1];
-      // Monta o id do áudio (ex: som_tecla_pom)
-      const idAudio = `#som_${instrumento}`;
-      const audio = document.querySelector(idAudio);
-
-      if (audio) {
-        audio.currentTime = 0; // volta o áudio pro início
-        audio.play();          // toca o som
-      }
-    });
-  }); */
-  
-
